@@ -1,0 +1,38 @@
+version: 1
+formatters:
+  brief:
+    format: "%(asctime)s - %(threadName)s - %(message)s"
+  simple:
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(threadName)s - %(message)s"
+handlers:
+  console:
+    class : logging.StreamHandler
+    formatter: brief
+    level   : INFO
+    stream  : ext://sys.stdout
+  file:
+    class : logging.FileHandler
+    formatter: simple
+    level: DEBUG
+    filename: debug.log
+  time_rotate_file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    formatter: simple
+    filename: debug.log
+    when: 'M'
+    interval: 30
+    backupCount: 48
+    encoding: utf8
+  error:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: simple
+    filename: error.log
+    maxBytes: 10480
+    backupCount: 20
+    encoding: utf8
+loggers:
+  crawler:
+    level: DEBUG
+    handlers: [console,error,time_rotate_file]
